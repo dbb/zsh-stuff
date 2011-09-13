@@ -15,7 +15,6 @@ _perlbrew () {
     *)
         case $words[2] in
         use)
-            #compadd "$@" Paris Lyon Marseille
             compadd "$@" ${(f)"$( ls $PERLBREW_ROOT/perls )"}
         ;;
         uninstall)
@@ -29,3 +28,4 @@ _perlbrew () {
 } ## end _perlbrew
 
 _perlbrew "$@"
+
