@@ -10,7 +10,17 @@ _perlbrew () {
 
     case $state in
     command)
-        _arguments "1:commands:((init\:'Initialize perlbrew environment.' install\:'Install perl' uninstall\:'Uninstall the given installation' list\:'List installed perls' use\:'Use the specified perl in current shell' available\:'List perls available to install' switch\:'Permanently use the specified perl as default' mirror\:'Pick a preferred mirror site' off\:'Permanently turn off perlbrew, go back to system Perl' version\:'Display version' help\:'Read more detailed instructions'))"
+        _arguments "1:commands:((init\:'Initialize perlbrew environment.' \
+            install\:'Install perl' \
+            uninstall\:'Uninstall the given installation' \
+            list\:'List installed perls' \
+            use\:'Use the specified perl in current shell' \
+            available\:'List perls available to install' \
+            switch\:'Permanently use the specified perl as default' \
+            mirror\:'Pick a preferred mirror site' \
+            off\:'Permanently turn off perlbrew, go back to system Perl' \
+            version\:'Display version' \
+            help\:'Read more detailed instructions'))"
     ;;
     *)
         case $words[2] in
