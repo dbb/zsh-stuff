@@ -3,7 +3,7 @@
 _perlbrew () {
     local curcontext="$curcontext" state line
     typeset -A opt_args
-    
+
     _arguments \
         '1: :->command'\
         '*: :->perl'
@@ -22,16 +22,46 @@ _perlbrew () {
             version\:'Display version' \
             help\:'Read more detailed instructions'))"
     ;;
+
     *)
         case $words[2] in
-        use)
-            compadd "$@" ${(f)"$( ls $PERLBREW_ROOT/perls )"}
-        ;;
-        uninstall)
-            compadd "$@" ${(f)"$( ls $PERLBREW_ROOT/perls )"}
-        ;;
-        *)
-            _files
+            (init|list|available|off|version|help)
+                _message "'$words[2]' takes no arguments."
+            ;;
+
+            install)
+                # This list generation is a little slow.
+                _perlbrew_all_avail=( ${(f)"$( perlbrew available | perl -lpe \
+                    's/^i?\s+//' )"} )
+                compadd "$@" $_perlbrew_all_avail
+
+                # Uncomment for a message telling you what's installed
+                # _perlbrew_avail_installed=( ${(f)"$( perlbrew available | \
+                #     perl -lne 'print if s/^i\s+//' )"} )
+                # _message "Installed: $_perlbrew_avail_installed"
+            ;;
+
+            mirror)
+                _message 'mirror URL'
+            ;;
+
+            uninstall)
+                # Not too slow
+                _perlbrew_local_perls=( $PERLBREW_ROOT/perls/*(:t) )
+                compadd "$@" $_perlbrew_local_perls
+            ;;
+
+            (switch|use)
+                # Not too slow either
+                _perlbrew_list=( ${(f)"$( perlbrew list | perl -lpe \
+                    's/^(\*)?\s+//;s/\s*\([\d\.]+\)$//' )"} )
+                compadd "$@" $_perlbrew_list
+            ;;
+
+
+
+            *)
+                _message "Unknown argument: $words[2]"
         esac
     esac
 
