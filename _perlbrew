@@ -47,7 +47,15 @@ _perlbrew () {
 
             uninstall)
                 # Not too slow
-                _perlbrew_local_perls=( $PERLBREW_ROOT/perls/*(:t) )
+                if [[ -n $PERLBREW_ROOT ]]; then
+                    _perlbrew_local_perls=( $PERLBREW_ROOT/perls/*(:t) )
+                elif [[ -d $HOME/perl5/perls ]]; then
+                    _perlbrew_local_perls=( $HOME/perl5/perls/*(:t) )
+                else
+                    _message "No perls directory found."
+                    # _perlbrew_local_perls is undef
+                fi
+
                 compadd "$@" $_perlbrew_local_perls
             ;;
 
