@@ -1,0 +1,54 @@
+#compdef tasksel
+
+# dbbolton
+# https://github.com/dbb/zsh-stuff
+
+_tasksel () {
+    local curcontext="$curcontext" state line
+    typeset -A opt_args
+
+    _arguments \
+        '1: :->arg'\
+        '*: :->task'
+
+    case $state in
+    arg)
+
+            _arguments "1:command:((install\:'install <task>' \
+            remove\:'remove <task>'))"
+
+         _arguments -C \
+            '(-t --test)'{-t,--test}'[print actions without performing them]' \
+            '--new-install[automatically select some tasks w/o notice]' \
+            '--list-tasks[print list of tasks to STDOUT]' \
+            '--task-packages[print packages that are part of <task>]' \
+            '--task-desc[print extended description of <task>]' \
+            '--debconf-apt-progress[pass <options> to debconf-apt-progress command run by tasksel]'    
+        ;;
+
+    *)
+        case $words[2] in
+            (-t|--test|--new-install|--list-tasks)
+                _message "$words[2] takes no arguments."
+            ;;
+
+            (install|remove|--task-packages|--task-desc)
+                _tasksel_list=( ${(f)"$( tasksel --list | perl -lane \
+                    'print $F[1]' )"} )
+                compadd "$@" $_tasksel_list
+
+            ;;
+
+            --debconf-apt-progress)
+                _message "options"
+            ;;
+
+            *)
+                _message "Unknown argument: $words[2]"
+        esac
+    esac
+
+} ## end _tasksel
+
+_tasksel "$@"
+
