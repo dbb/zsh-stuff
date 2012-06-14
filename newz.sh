@@ -5,7 +5,7 @@
 
 su -c "aptitude install git zsh" root
 cd
-if [ ! -d src ]; then; mkdir src; fi
+if [ ! -d src ]; then mkdir src; fi
 cd src
 git clone git@github.com:dbb/githome.git
 cd githome
