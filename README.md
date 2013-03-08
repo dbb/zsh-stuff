@@ -1,4 +1,4 @@
-# dbb's zsh stiff
+# dbb's zsh stuff
 
 <https://github.com/dbb/zsh-stuff>
 
@@ -20,4 +20,3 @@ Save your completion files there, and then put this in your `~/.zshenv` file:
 ## Copyright
 The contents of this repository are released under the GNU General Public
 License version 3.
-
